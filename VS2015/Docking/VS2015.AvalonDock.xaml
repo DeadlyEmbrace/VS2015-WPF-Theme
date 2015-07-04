@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:avalonDock="clr-namespace:Xceed.Wpf.AvalonDock;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDockControls="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="AnchorablePane.xaml" />
+        <ResourceDictionary Source="ButtonStyles.xaml" />
+        <ResourceDictionary Source="DocumentPane.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--LayoutGridResizerControl-->
+    <Style x:Key="{x:Type avalonDockControls:LayoutGridResizerControl}" TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
+                    <Border Background="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--DockingManager-->
+    <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
+        <Setter Property="AnchorablePaneControlStyle" Value="{StaticResource VsAnchorablePaneControlStyle}"/>
+        <Setter Property="DocumentTitleTemplate" Value="{StaticResource VsDocumentTitleTemplate}"/>
+        <Setter Property="AnchorableTitleTemplate" Value="{StaticResource VsAnchorableTitleTemplate}"/>
+        <Setter Property="DocumentHeaderTemplate" Value="{StaticResource VsDocumentHeaderTemplate}"/>
+        <Setter Property="DocumentPaneControlStyle" Value="{StaticResource VsDocumentPaneControlStyle}"/>
+        <!-- <Setter Property="AnchorSideTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorSideTemplate}"/>
+        <Setter Property="AnchorGroupTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorGroupTemplate}"/>
+        <Setter Property="AnchorTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorTemplate}"/> -->
+        <!--
+        <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource VsAnchorableHeaderTemplate}"/>
+        <
+        
+        <Setter Property="AnchorableContextMenu" Value="{StaticResource VsAnchorableContextMenu}"/>
+        <Setter Property="DocumentContextMenu" Value="{StaticResource VsDocumentContextMenu}"/>-->
+        <!--<Setter Property="DocumentPaneMenuItemHeaderTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_DocumentHeaderTemplate}"/>-->
+        <!--<Setter Property="IconContentTemplate" Value="{StaticResource VsIconContentTemplate}"/>-->
+        <Setter Property="GridSplitterWidth" Value="4"/>
+        <Setter Property="GridSplitterHeight" Value="4"/>
+    </Style>
+</ResourceDictionary>

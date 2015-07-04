@@ -11,9 +11,9 @@
     <sys:String x:Key="PinMenuLarge">&#x48;</sys:String>
     <sys:String x:Key="PinMenuSmall">&#x53;</sys:String>
 
-    <!--<DrawingBrush x:Key="PinAutoHideGlyph" Viewbox="0,0,7,11" Viewport="0,0,7,11"
+    <DrawingBrush x:Key="PinAutoHideGlyph" Viewbox="0,0,7,11" Viewport="0,0,7,11"
                     TileMode="None" ViewportUnits="Absolute"
-                    ViewboxUnits="Absolute" RenderOptions.EdgeMode="Aliased">
+                    ViewboxUnits="Absolute" RenderOptions.EdgeMode="Aliased" >
         <DrawingBrush.Drawing>
             <DrawingGroup>
                 <DrawingGroup.Children>
@@ -104,6 +104,6 @@
                 </DrawingGroup.Children>
             </DrawingGroup>
         </DrawingBrush.Drawing>
-    </DrawingBrush>-->
+    </DrawingBrush>
 
 </ResourceDictionary>

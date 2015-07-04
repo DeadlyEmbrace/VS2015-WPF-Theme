@@ -9,7 +9,6 @@
         <ResourceDictionary Source="Colors/DockColors.xaml" />
         
         <!-- AvalonDock -->
-        <ResourceDictionary Source="Docking/AnchorablePane.xaml" />
-        <ResourceDictionary Source="Docking/ButtonStyles.xaml" />
+        <ResourceDictionary Source="Docking/VS2015.AvalonDock.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

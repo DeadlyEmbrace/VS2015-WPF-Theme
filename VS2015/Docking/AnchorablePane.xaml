@@ -4,23 +4,23 @@
                     xmlns:avalonDock="clr-namespace:Xceed.Wpf.AvalonDock;assembly=Xceed.Wpf.AvalonDock"
                     xmlns:avalonDockLayout="clr-namespace:Xceed.Wpf.AvalonDock.Layout;assembly=Xceed.Wpf.AvalonDock"
                     xmlns:avalonDockControls="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock"
-                    xmlns:avalonDockConverters="clr-namespace:Xceed.Wpf.AvalonDock.Converters;assembly=Xceed.Wpf.AvalonDock"
                     xmlns:avalonDockProperties="clr-namespace:Xceed.Wpf.AvalonDock.Properties;assembly=Xceed.Wpf.AvalonDock">
+    
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="..\Colors\DockColors.xaml" />
         <ResourceDictionary Source="..\Glyphs.xaml" />
         <ResourceDictionary Source="ButtonStyles.xaml" />
+        <ResourceDictionary Source="Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <!-- Value Converters -->
-    <avalonDockConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    <avalonDockConverters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
-    <avalonDockConverters:AnchorSideToOrientationConverter x:Key="AnchorSideToOrientationConverter"/>
-    <avalonDockConverters:AnchorSideToAngleConverter x:Key="AnchorSideToAngleConverter"/>
-    <avalonDockConverters:NullToDoNothingConverter x:Key="NullToDoNothingConverter"/>
-    <avalonDockConverters:LayoutItemFromLayoutModelConverter x:Key="LayoutItemFromLayoutModelConverter"/>
-    <avalonDockConverters:ActivateCommandLayoutItemFromLayoutModelConverter x:Key="ActivateCommandLayoutItemFromLayoutModelConverter"/>
-
+    <DataTemplate x:Key="VsAnchorablePaneContentTemplate">
+        <avalonDockControls:LayoutAnchorableControl Model="{Binding}"/>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="VsAnchorablePaneItemTemplate">
+        <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
+    </DataTemplate>
+    
     <Style TargetType="avalonDockControls:AnchorablePaneTitle">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -320,283 +320,11 @@
             </Setter.Value>
         </Setter>
 
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableTabItem Model="{Binding}"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ItemTemplate" Value="{StaticResource VsAnchorablePaneItemTemplate}" />
 
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <avalonDockControls:LayoutAnchorableControl Model="{Binding}"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="ContentTemplate" Value="{StaticResource VsAnchorablePaneContentTemplate}" />
     </Style>
 
-    <DataTemplate x:Key="VsDocumentHeaderTemplate">
-        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="VsDocumentTitleTemplate">
-        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis"/>
-    </DataTemplate>
-
-    <DataTemplate x:Key="VsAnchorableTitleTemplate">
-        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
-    </DataTemplate>
-
-    <!--LayoutGridResizerControl-->
-    <Style x:Key="{x:Type avalonDockControls:LayoutGridResizerControl}" TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
-                    <Border Background="{TemplateBinding Background}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--DocumentPaneControlStyle-->
-    <Style x:Key="VsDocumentPaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
-        <Setter Property="Background" Value="Pink"/>
-        <Setter Property="BorderBrush" Value="{x:Null}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
-                    <Grid ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <!--Following border is required to catch mouse events-->
-                        <Border Background="Transparent" Grid.RowSpan="2"/>
-                        <Grid  Panel.ZIndex="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <avalonDockControls:DocumentPaneTabPanel x:Name="HeaderPanel"
-                                                                     Grid.Column="0"
-                                                                     IsItemsHost="true"
-                                                                     Margin="0,0,0,0"
-                                                                     Grid.Row="0"
-                                                                     KeyboardNavigation.TabIndex="1" />
-                            <avalonDockControls:DropDownButton
-                                x:Name="MenuDropDownButton"
-                                Style="{StaticResource AvalonDock_ThemeVS2015_ToolButtonStyle}"
-                                Focusable="False"
-                                VerticalAlignment="Center"
-                                Grid.Column="1">
-                                <avalonDockControls:DropDownButton.DropDownContextMenu>
-                                    <avalonDockControls:ContextMenuEx
-                                        ItemsSource="{Binding Model.ChildrenSorted, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <avalonDockControls:ContextMenuEx.ItemContainerStyle>
-                                            <Style TargetType="{x:Type avalonDockControls:MenuItemEx}" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                                <Setter Property="HeaderTemplate" Value="{Binding Path=Root.Manager.DocumentPaneMenuItemHeaderTemplate}"/>
-                                                <Setter Property="HeaderTemplateSelector" Value="{Binding Path=Root.Manager.DocumentPaneMenuItemHeaderTemplateSelector}"/>
-                                                <Setter Property="IconTemplate" Value="{Binding Path=Root.Manager.IconContentTemplate}"/>
-                                                <Setter Property="IconTemplateSelector" Value="{Binding Path=Root.Manager.IconContentTemplateSelector}"/>
-                                                <Setter Property="Command" Value="{Binding Path=., Converter={StaticResource ActivateCommandLayoutItemFromLayoutModelConverter}}"/>
-                                            </Style>
-                                        </avalonDockControls:ContextMenuEx.ItemContainerStyle>
-                                    </avalonDockControls:ContextMenuEx>
-                                </avalonDockControls:DropDownButton.DropDownContextMenu>
-                                <Image Source="/AvalonDock.Themes.VS2010;component/Images/PinDocMenu.png"/>
-                            </avalonDockControls:DropDownButton>
-                        </Grid>
-                        <Border x:Name="ContentPanel" 
-                                VerticalAlignment="Stretch" 
-                                HorizontalAlignment="Stretch"  
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="0" 
-                                Background="{StaticResource Document_BackgroundBrush}" 
-                                Grid.Column="0" Margin="0" Padding="0"
-                                KeyboardNavigation.DirectionalNavigation="Contained"
-                                Grid.Row="1" 
-                                KeyboardNavigation.TabIndex="2" 
-                                KeyboardNavigation.TabNavigation="Cycle">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <Rectangle x:Name="PART_ContentTopBorder" Fill="{StaticResource DocumentTab_BorderBrush}" />
-
-                                <ContentPresenter x:Name="PART_SelectedContentHost" Grid.Row="1"
-                                              ContentSource="SelectedContent" 
-                                              Margin="0"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" SourceName="MenuDropDownButton" Value="True">
-                            <Setter Property="Content" TargetName="MenuDropDownButton">
-                                <Setter.Value>
-                                    <Image Source="/AvalonDock.Themes.VS2010;component/Images/PinDocMenu_Black.png"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                        <Trigger Property="IsChecked" SourceName="MenuDropDownButton" Value="True">
-                            <Setter Property="Content" TargetName="MenuDropDownButton">
-                                <Setter.Value>
-                                    <Image Source="/AvalonDock.Themes.VS2010;component/Images/PinDocMenu_Black.png"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsActive}" Value="True"/>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsLastFocusedDocument}" Value="True"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Background" Value="Green" />
-                            <Setter TargetName="PART_ContentTopBorder" Property="Fill" Value="{StaticResource DocumentTab_ActiveBackgroundBrush}" />
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsActive}" Value="False"/>
-                                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=Model.SelectedContent.IsLastFocusedDocument}" Value="True"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter TargetName="PART_ContentTopBorder" Property="Fill" Value="{StaticResource DocumentTab_InactiveBackgroundBrush}" />
-                            <Setter Property="Foreground" Value="{StaticResource DocumentTab_ForegroundBrush}" />
-                        </MultiDataTrigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                        </Trigger>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Model.ChildrenCount}" Value="0">
-                            <Setter Property="Visibility" Value="Collapsed" TargetName="MenuDropDownButton" />
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemContainerStyle">
-            <Setter.Value>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Foreground" Value="{StaticResource DocumentTab_ForegroundBrush}"/>
-                    <Setter Property="Background" Value="{StaticResource DocumentTab_BackgroundBrush}"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    <Setter Property="ToolTip" Value="{Binding ToolTip}"/>
-                    <Setter Property="Padding" Value="4,0,4,0"/>
-                    <Setter Property="Margin" Value="0,0,0,0"/>
-                    <Setter Property="Height" Value="19" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type TabItem}">
-                                <Grid SnapsToDevicePixels="true">
-                                    <Border x:Name="Bd" 
-							              BorderBrush="{TemplateBinding BorderBrush}"
-   				                          BorderThickness="0" 
-							              Background="{StaticResource DocumentTab_BackgroundBrush}" 
-							              Padding="{TemplateBinding Padding}">
-                                        <ContentPresenter 
-								            x:Name="Content" 
-								            ContentSource="Header" 
-                                            HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
-                                            VerticalAlignment="Center"
-                                            RecognizesAccessKey="True" 
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </Border>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="Selector.IsSelected" Value="true">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor33}" />
-                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_ActiveBackgroundBrush}" />
-                                        <Setter Property="Foreground" Value="{StaticResource DocumentTab_ActiveForegroundBrush}"/>
-                                        <Setter Property="Panel.ZIndex" Value="1" />
-                                        <Setter Property="Margin" Value="0"/>
-                                        <Setter Property="Margin" TargetName="Content" Value="0,0,0,0"/>
-                                    </Trigger>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsActive}" Value="True"/>
-                                            <Condition Binding="{Binding IsLastFocusedDocument}" Value="True"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}" />
-                                        <Setter Property="Background" Value="{StaticResource DocumentTab_ActiveBackgroundBrush}" />
-                                        <Setter Property="Foreground" Value="{StaticResource DocumentTab_ActiveForegroundBrush}"/>
-                                        <Setter Property="Panel.ZIndex" 
-                                            Value="1" />
-                                    </MultiDataTrigger>
-
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding IsActive}" Value="False"/>
-                                            <Condition Binding="{Binding IsLastFocusedDocument}" Value="True"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="BorderBrush"
-									        Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor30}" />
-                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_InactiveBackgroundBrush}" />
-                                        <Setter Property="Foreground" Value="{StaticResource DocumentTab_ForegroundBrush}"/>
-                                        <Setter Property="Panel.ZIndex" 
-                                            Value="1" />
-                                    </MultiDataTrigger>
-
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsMouseOver" Value="true"/>
-                                            <Condition Property="Selector.IsSelected" Value="false"/>
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor14}"/>
-                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_HoverBackgroundBrush}"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Setter Property="Panel.ZIndex" Value="0" />
-                                    </MultiTrigger>
-                                    <Trigger Property="IsEnabled" Value="false">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor13}"/>
-                                        <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor9}"/>
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <avalonDockControls:LayoutDocumentTabItem Model="{Binding}"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <avalonDockControls:LayoutDocumentControl Model="{Binding}"/>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--DockingManager-->
-    <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
-        <Setter Property="AnchorablePaneControlStyle" Value="{StaticResource VsAnchorablePaneControlStyle}"/>
-        <Setter Property="DocumentTitleTemplate" Value="{StaticResource VsDocumentTitleTemplate}"/>
-        <Setter Property="AnchorableTitleTemplate" Value="{StaticResource VsAnchorableTitleTemplate}"/>
-        <Setter Property="DocumentHeaderTemplate" Value="{StaticResource VsDocumentHeaderTemplate}"/>
-        <Setter Property="DocumentPaneControlStyle" Value="{StaticResource VsDocumentPaneControlStyle}"/>
-        <!-- <Setter Property="AnchorSideTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorSideTemplate}"/>
-        <Setter Property="AnchorGroupTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorGroupTemplate}"/>
-        <Setter Property="AnchorTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorTemplate}"/> -->
-        <!--
-        <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource VsAnchorableHeaderTemplate}"/>
-        <
-        
-        <Setter Property="AnchorableContextMenu" Value="{StaticResource VsAnchorableContextMenu}"/>
-        <Setter Property="DocumentContextMenu" Value="{StaticResource VsDocumentContextMenu}"/>-->
-        <!--<Setter Property="DocumentPaneMenuItemHeaderTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_DocumentHeaderTemplate}"/>-->
-        <!--<Setter Property="IconContentTemplate" Value="{StaticResource VsIconContentTemplate}"/>-->
-        <Setter Property="GridSplitterWidth" Value="4"/>
-        <Setter Property="GridSplitterHeight" Value="4"/>
-    </Style>
+    
+    
 </ResourceDictionary>
