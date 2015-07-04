@@ -19,7 +19,36 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <ControlTemplate x:Key="VsDockingManagerControlTemplate" TargetType="{x:Type avalonDock:DockingManager}">
+        <Border Background="{StaticResource DockingManager_BackgroundBrush}"
+                BorderThickness="0">
+            <Grid FlowDirection="LeftToRight">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter Content="{TemplateBinding LayoutRootPanel}" Grid.Column="1" Grid.Row="1" Margin="5"/>
+                <ContentPresenter Content="{TemplateBinding RightSidePanel}" Grid.Column="2" Grid.Row="1"/>
+                <ContentPresenter Content="{TemplateBinding LeftSidePanel}" Grid.Column="0" Grid.Row="1"/>
+                <ContentPresenter Content="{TemplateBinding TopSidePanel}" Grid.Column="1" Grid.Row="0"/>
+                <ContentPresenter Content="{TemplateBinding BottomSidePanel}" Grid.Column="1" Grid.Row="2"/>
+                <ContentPresenter 
+                                x:Name="PART_AutoHideArea"
+                                Content="{TemplateBinding AutoHideWindow}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
     <!--DockingManager-->
     <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
         <Setter Property="AnchorablePaneControlStyle" Value="{StaticResource VsAnchorablePaneControlStyle}"/>
@@ -40,5 +69,6 @@
         <!--<Setter Property="IconContentTemplate" Value="{StaticResource VsIconContentTemplate}"/>-->
         <Setter Property="GridSplitterWidth" Value="4"/>
         <Setter Property="GridSplitterHeight" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource VsDockingManagerControlTemplate}" />
     </Style>
 </ResourceDictionary>
