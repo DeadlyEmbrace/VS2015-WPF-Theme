@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- AnchorablePane Tabs -->
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_BorderBrush" Color="#8E9BBC" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_BottomBorderBrush" Color="#4B5C74" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_BackgroundBrush" Color="#4D6082" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_ForegroundBrush" Color="#FFFFFF" />
+
+    <SolidColorBrush x:Key="AnchorablePaneTabPanel_BackgroundBrush" Color="#4B5C74" />
+    
+
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedBorderBrush" Color="#8E9BBC" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedInnerBorderBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedBackgroundBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedForegroundBrush" Color="#000000" />
+
+    <SolidColorBrush x:Key="AnchorablePaneTabItem_HoverBackgroundBrush" Color="#4B5C74" />
+</ResourceDictionary>

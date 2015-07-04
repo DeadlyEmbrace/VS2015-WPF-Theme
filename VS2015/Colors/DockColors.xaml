@@ -34,17 +34,7 @@
     <SolidColorBrush x:Key="AnchorablePaneControl_BackgroundBrush" Color="#FFFFFF" />
     <SolidColorBrush x:Key="AnchorablePaneControl_BorderBrush" Color="#8E9BBC" />
 
-    <!-- AnchorablePane Tabs -->
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_BorderBrush" Color="#8E9BBC" />
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_BackgroundBrush" Color="#4D6082" />
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_ForegroundBrush" Color="#FFFFFF" />
-
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedBorderBrush" Color="#8E9BBC" />
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedInnerBorderBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedBackgroundBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_SelectedForegroundBrush" Color="#000000" />
-
-    <SolidColorBrush x:Key="AnchorablePaneTabItem_HoverBackgroundBrush" Color="#4B5C74" />
+    
     
     <!-- Document -->
     <SolidColorBrush x:Key="Document_BackgroundBrush" Color="#FFFFFF" />

@@ -8,6 +8,10 @@
         <ResourceDictionary Source="DocumentPane.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+    <DataTemplate x:Key="VsIconContentTemplate">
+        <Image Source="{Binding IconSource, Converter={StaticResource NullToDoNothingConverter}}" Stretch="Uniform"/>
+    </DataTemplate>
+    
     <!--LayoutGridResizerControl-->
     <Style x:Key="{x:Type avalonDockControls:LayoutGridResizerControl}" TargetType="{x:Type avalonDockControls:LayoutGridResizerControl}">
         <Setter Property="Background" Value="Transparent"/>
@@ -56,11 +60,13 @@
         <Setter Property="AnchorableTitleTemplate" Value="{StaticResource VsAnchorableTitleTemplate}"/>
         <Setter Property="DocumentHeaderTemplate" Value="{StaticResource VsDocumentHeaderTemplate}"/>
         <Setter Property="DocumentPaneControlStyle" Value="{StaticResource VsDocumentPaneControlStyle}"/>
+        <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource VsAnchorableHeaderTemplate}"/>
+        <Setter Property="IconContentTemplate" Value="{StaticResource VsIconContentTemplate}"/>
         <!-- <Setter Property="AnchorSideTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorSideTemplate}"/>
         <Setter Property="AnchorGroupTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorGroupTemplate}"/>
         <Setter Property="AnchorTemplate" Value="{StaticResource AvalonDock_ThemeVS2010_AnchorTemplate}"/> -->
         <!--
-        <Setter Property="AnchorableHeaderTemplate" Value="{StaticResource VsAnchorableHeaderTemplate}"/>
+        
         <
         
         <Setter Property="AnchorableContextMenu" Value="{StaticResource VsAnchorableContextMenu}"/>
