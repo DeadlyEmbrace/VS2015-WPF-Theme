@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=AvalonDock"
-                    xmlns:avalonDock="clr-namespace:AvalonDock;assembly=AvalonDock"
-                    xmlns:avalonDockLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
-                    xmlns:avalonDockControls="clr-namespace:AvalonDock.Controls;assembly=AvalonDock"
-                    xmlns:avalonDockConverters="clr-namespace:AvalonDock.Converters;assembly=AvalonDock"
-                    xmlns:avalonDockProperties="clr-namespace:AvalonDock.Properties;assembly=AvalonDock">
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDock="clr-namespace:Xceed.Wpf.AvalonDock;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDockLayout="clr-namespace:Xceed.Wpf.AvalonDock.Layout;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDockControls="clr-namespace:Xceed.Wpf.AvalonDock.Controls;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDockConverters="clr-namespace:Xceed.Wpf.AvalonDock.Converters;assembly=Xceed.Wpf.AvalonDock"
+                    xmlns:avalonDockProperties="clr-namespace:Xceed.Wpf.AvalonDock.Properties;assembly=Xceed.Wpf.AvalonDock">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="..\Colors\DockColors.xaml" />
         <ResourceDictionary Source="..\Glyphs.xaml" />
@@ -59,7 +59,7 @@
                                 BorderThickness="1"
                                 BorderBrush="Transparent"
                                 VerticalAlignment="Center"
-                                Style="{StaticResource AvalonDock_ThemeVS2012_ToolButtonStyle}"
+                                Style="{StaticResource AvalonDock_ThemeVS2015_ToolButtonStyle}"
                                 Focusable="False"
                                 Grid.Column="2"
                                 Foreground="{StaticResource AnchorablePane_Title_GlyphForegroundBrush}"
@@ -92,7 +92,7 @@
                                 BorderBrush="Transparent"
                                 Focusable="False"
                                 Foreground="{StaticResource AnchorablePane_Title_GlyphForegroundBrush}"
-                                Style="{StaticResource AvalonDock_ThemeVS2012_ButtonStyle}"
+                                Style="{StaticResource AvalonDock_ThemeVS2015_ButtonStyle}"
                                 SnapsToDevicePixels="True"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
@@ -118,7 +118,7 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
                             </Button>
-                            
+
                             <!-- Close Button -->
                             <Button x:Name="PART_ClosePin" 
                                 Grid.Column="4" 
@@ -127,13 +127,13 @@
                                 Focusable="False"
                                 Foreground="{StaticResource AnchorablePane_Title_GlyphForegroundBrush}"
                                 Width="15" Height="15"
-                                Style="{StaticResource AvalonDock_ThemeVS2012_ButtonStyle}"
+                                Style="{StaticResource AvalonDock_ThemeVS2015_ButtonStyle}"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Command="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" 
                                 Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                 ToolTip="{x:Static avalonDockProperties:Resources.Anchorable_BtnClose_Hint}" >
-                                
+
                                 <Rectangle Width="10" Height="8">
                                     <Rectangle.Fill>
                                         <DrawingBrush Viewbox="0,0,10,8" Viewport="0,0,10,8" TileMode="None" ViewportUnits="Absolute" ViewboxUnits="Absolute" RenderOptions.EdgeMode="Unspecified">
@@ -171,7 +171,7 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-                        
+
                         <!-- Active -->
                         <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                             <Setter Property="Background" Value="{StaticResource AnchorablePane_Title_FocusedBackgroundBrush}" TargetName="bkgBorder" />
@@ -274,7 +274,7 @@
                                             CornerRadius="0" Padding="3,1,3,1"
 							                Background="{TemplateBinding Background}" >
 
-                                    <ContentPresenter 
+                                        <ContentPresenter 
 								            x:Name="Content" 
 								            ContentSource="Header" 
                                             HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" 
@@ -299,7 +299,7 @@
                                         </MultiTrigger.Conditions>
                                         <Setter Property="BorderBrush" Value="{StaticResource AnchorablePaneTabItem_HoverBackgroundBrush}"/>
                                         <Setter Property="Background" Value="{StaticResource AnchorablePaneTabItem_HoverBackgroundBrush}"/>
-                                        
+
                                         <Setter Property="Panel.ZIndex" Value="0" />
                                     </MultiTrigger>
                                     <Trigger Property="IsEnabled" Value="false">
@@ -388,7 +388,7 @@
                                                                      KeyboardNavigation.TabIndex="1" />
                             <avalonDockControls:DropDownButton
                                 x:Name="MenuDropDownButton"
-                                Style="{StaticResource AvalonDock_ThemeVS2012_ToolButtonStyle}"
+                                Style="{StaticResource AvalonDock_ThemeVS2015_ToolButtonStyle}"
                                 Focusable="False"
                                 VerticalAlignment="Center"
                                 Grid.Column="1">
@@ -577,7 +577,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <!--DockingManager-->
     <Style x:Key="{x:Type avalonDock:DockingManager}" TargetType="{x:Type avalonDock:DockingManager}">
         <Setter Property="AnchorablePaneControlStyle" Value="{StaticResource VsAnchorablePaneControlStyle}"/>
