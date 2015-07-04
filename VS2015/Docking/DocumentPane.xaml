@@ -8,6 +8,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="..\Colors\DockColors.xaml" />
+        <ResourceDictionary Source="..\Colors\VS2015Blue\DocumentBrushes.xaml" />
         <ResourceDictionary Source="..\Glyphs.xaml" />
         <ResourceDictionary Source="ButtonStyles.xaml" />
         <ResourceDictionary Source="Converters.xaml" />
@@ -131,7 +132,7 @@
 
         <!--  Triggers  -->
         <ControlTemplate.Triggers>
-            <DataTrigger Binding="{Binding Model.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
+            <DataTrigger Binding="{Binding Model.SelectedContent.IsActive, RelativeSource={RelativeSource Mode=Self}}" Value="True">
                 <Setter TargetName="MenuDropDownButton" Property="Foreground" Value="{StaticResource AnchorablePane_Title_FocusedGlyphForegroundBrush}" />
             </DataTrigger>
 
@@ -166,17 +167,42 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+    <Style x:Key="VsDocumentTabItemButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="Transparent" />
+        <Setter Property="Margin" Value="5,0,0,0" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter x:Name="PART_Content"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <ControlTemplate x:Key="VsDocumentPaneTabItemControlTemplate" TargetType="{x:Type TabItem}">
         <Grid SnapsToDevicePixels="true">
             <Border x:Name="Bd"
-                    Background="{StaticResource DocumentTab_BackgroundBrush}"
+                    Background="{StaticResource VsDocumentTabItem_BackgroundBrush}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="0"
-                    Padding="{TemplateBinding Padding}">
+                    Padding="0">
                 <ContentPresenter x:Name="Content"
                                   HorizontalAlignment="{Binding HorizontalContentAlignment,
                                                                 RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
-                                  VerticalAlignment="Center"
+                                  VerticalAlignment="Stretch"
                                   ContentSource="Header"
                                   RecognizesAccessKey="True"
                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
@@ -186,32 +212,32 @@
         <!--  Triggers  -->
         <ControlTemplate.Triggers>
             <Trigger Property="Selector.IsSelected" Value="true">
-                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor33}" />
-                <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_ActiveBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource DocumentTab_ActiveForegroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_Active_BorderBrush}" />
+                <Setter TargetName="Bd" Property="Background" Value="{StaticResource VsDocumentTabItem_Active_BackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource VsDocumentTabItem_Active_ForegroundBrush}" />
                 <Setter Property="Panel.ZIndex" Value="1" />
                 <Setter Property="Margin" Value="0" />
                 <Setter TargetName="Content" Property="Margin" Value="0,0,0,0" />
             </Trigger>
-            <MultiDataTrigger>
+            <!--<MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsActive}" Value="True" />
                     <Condition Binding="{Binding IsLastFocusedDocument}" Value="True" />
                 </MultiDataTrigger.Conditions>
-                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor31}" />
-                <Setter Property="Background" Value="{StaticResource DocumentTab_ActiveBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource DocumentTab_ActiveForegroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_Active_BorderBrush}" />
+                <Setter Property="Background" Value="{StaticResource VsDocumentTabItem_Active_BackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource VsDocumentTabItem_Active_ForegroundBrush}" />
                 <Setter Property="Panel.ZIndex" Value="1" />
-            </MultiDataTrigger>
+            </MultiDataTrigger>-->
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding IsActive}" Value="False" />
                     <Condition Binding="{Binding IsLastFocusedDocument}" Value="True" />
                 </MultiDataTrigger.Conditions>
-                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor30}" />
-                <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_InactiveBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{StaticResource DocumentTab_ForegroundBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_InactiveSelected_BorderBrush}" />
+                <Setter TargetName="Bd" Property="Background" Value="{StaticResource VsDocumentTabItem_InactiveSelected_BackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource VsDocumentTabItem_InactiveSelected_ForegroundBrush}" />
                 <Setter Property="Panel.ZIndex" Value="1" />
             </MultiDataTrigger>
 
@@ -220,11 +246,13 @@
                     <Condition Property="IsMouseOver" Value="true" />
                     <Condition Property="Selector.IsSelected" Value="false" />
                 </MultiTrigger.Conditions>
-                <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor14}" />
-                <Setter TargetName="Bd" Property="Background" Value="{StaticResource DocumentTab_HoverBackgroundBrush}" />
-                <Setter Property="Foreground" Value="White" />
+                <Setter Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_MouseOver_BorderBrush}" />
+                <Setter TargetName="Bd" Property="Background" Value="{StaticResource VsDocumentTabItem_MouseOver_BackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource VsDocumentTabItem_MouseOver_ForegroundBrush}" />
                 <Setter Property="Panel.ZIndex" Value="0" />
             </MultiTrigger>
+
+
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="BorderBrush" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor13}" />
                 <Setter Property="Background" Value="{DynamicResource AvalonDock_ThemeVS2010_BaseColor9}" />
@@ -233,11 +261,152 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
+
+
+    <Style TargetType="{x:Type avalonDockControls:LayoutDocumentTabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type avalonDockControls:LayoutDocumentTabItem}">
+                    <avalonDockControls:DropDownControlArea DropDownContextMenu="{Binding Root.Manager.DocumentContextMenu}" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border Background="Transparent" Padding="4,0,4,0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.ColumnSpan="2" />
+                                <ContentPresenter Content="{Binding Model,
+                                                                    RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ContentTemplate="{Binding DocumentHeaderTemplate,
+                                                                            Mode=OneWay,
+                                                                            RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager},
+                                                                                                           Mode=FindAncestor}}"
+                                                  ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector,
+                                                                                    Mode=OneWay,
+                                                                                    RelativeSource={RelativeSource AncestorType={x:Type avalonDock:DockingManager},
+                                                                                                                   Mode=FindAncestor}}" />
+                                <Button x:Name="DocumentCloseButton"
+                                        Grid.Column="1"
+                                        Width="15"
+                                        Height="15"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding Path=LayoutItem.CloseCommand,
+                                                          RelativeSource={RelativeSource TemplatedParent}}"
+                                        Padding="0"
+                                        Style="{StaticResource VsDocumentTabItemButton}"
+                                        ToolTip="{x:Static avalonDockProperties:Resources.Document_Close}"
+                                        Visibility="Visible">
+                                    <Rectangle Width="10" Height="8">
+                                        <Rectangle.Fill>
+                                            <DrawingBrush RenderOptions.EdgeMode="Unspecified"
+                                                          TileMode="None"
+                                                          Viewbox="0,0,10,8"
+                                                          ViewboxUnits="Absolute"
+                                                          Viewport="0,0,10,8"
+                                                          ViewportUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <DrawingGroup>
+                                                        <DrawingGroup.Children>
+                                                            <GeometryDrawing Geometry="M 1 0 L 9 8 z">
+                                                                <GeometryDrawing.Pen>
+                                                                    <Pen Brush="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" Thickness="1.25" />
+                                                                </GeometryDrawing.Pen>
+                                                            </GeometryDrawing>
+                                                            <GeometryDrawing Geometry="M 9 -1 L 0 8 z">
+                                                                <GeometryDrawing.Pen>
+                                                                    <Pen Brush="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" Thickness="1.25" />
+                                                                </GeometryDrawing.Pen>
+                                                            </GeometryDrawing>
+
+                                                        </DrawingGroup.Children>
+                                                    </DrawingGroup>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                </Button>
+                            </Grid>
+                        </Border>
+                    </avalonDockControls:DropDownControlArea>
+                    <ControlTemplate.Triggers>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsActive}" Value="False" />
+                                <Condition Binding="{Binding IsLastFocusedDocument}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_InactiveSelected_BackgroundBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_InactiveSelected_BorderBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_InactiveSelected_ForegroundBrush}" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BackgroundBrush}"/>
+                            <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BorderBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_ForegroundBrush}" />
+                        </Trigger>-->
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsActive}" Value="False" />
+                                <Condition Binding="{Binding IsSelected}" Value="False" />
+                                <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BackgroundBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BorderBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_ForegroundBrush}" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=CanClose}" Value="false">
+                            <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabItem}}}">
+                            <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BackgroundBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_BorderBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_MouseOver_Button_ForegroundBrush}" />
+                        </DataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsActive}" Value="True" />
+                                <Condition Binding="{Binding IsSelected}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_Active_Button_BackgroundBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_Active_Button_BorderBrush}" />
+                                <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_Active_Button_ForegroundBrush}" />
+                            </MultiDataTrigger.Setters>
+                        </MultiDataTrigger>
+
+                        <!--<DataTrigger Binding="{Binding Path=IsSelected}" Value="true">
+                            <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_Active_Button_BackgroundBrush}"/>
+                            <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_Active_Button_BorderBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_Active_Button_ForegroundBrush}" />
+                        </DataTrigger>-->
+
+                        <DataTrigger Binding="{Binding Path=IsMouseOver, ElementName=DocumentCloseButton}" Value="True">
+                            <Setter TargetName="DocumentCloseButton" Property="Background" Value="{StaticResource VsDocumentTabItem_Button_HoverBackgroundBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="BorderBrush" Value="{StaticResource VsDocumentTabItem_Button_HoverBorderBrush}" />
+                            <Setter TargetName="DocumentCloseButton" Property="Foreground" Value="{StaticResource VsDocumentTabItem_Button_HoverForegroundBrush}" />
+                        </DataTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--  DocumentPane Tab Item  -->
     <Style x:Key="VsDocumentPaneTabItemStyle" TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="{StaticResource DocumentTab_BackgroundBrush}" />
+        <Setter Property="Background" Value="{StaticResource VsDocumentTabItem_BackgroundBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{StaticResource DocumentTab_ForegroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource VsDocumentTabItem_ForegroundBrush}" />
         <Setter Property="Height" Value="19" />
         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
         <Setter Property="Margin" Value="0,0,0,0" />
@@ -248,8 +417,8 @@
 
     <!--  DocumentPane Style  -->
     <Style x:Key="VsDocumentPaneControlStyle" TargetType="{x:Type avalonDockControls:LayoutDocumentPaneControl}">
-        <Setter Property="Background" Value="Pink" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <!--<Setter Property="Background" Value="Pink" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />-->
         <Setter Property="ContentTemplate" Value="{StaticResource VsDocumentContentTemplate}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource VsDocumentPaneTabItemStyle}" />
         <Setter Property="ItemTemplate" Value="{StaticResource VsDocumentItemTemplate}" />
