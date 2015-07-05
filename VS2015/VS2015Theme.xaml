@@ -5,6 +5,7 @@
         <ResourceDictionary Source="MenuStyles.xaml" />
         <ResourceDictionary Source="StatusBarStyles.xaml" />
         <ResourceDictionary Source="ToolBarStyles.xaml" />
+        <ResourceDictionary Source="TreeViewStyles.xaml" />
 
         <ResourceDictionary Source="Colors/DockColors.xaml" />
         

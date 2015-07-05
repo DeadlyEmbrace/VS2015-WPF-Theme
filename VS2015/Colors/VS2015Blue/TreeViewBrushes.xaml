@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    
+    <SolidColorBrush x:Key="TreeViewExpander_StrokeBrush" Color="#1E1E1E" />
+
+    <SolidColorBrush x:Key="TreeViewExpander_Expanded_FillBrush" Color="#1E1E1E" />
+    <SolidColorBrush x:Key="TreeViewExpander_Expanded_StrokeBrush" Color="#1E1E1E" />
+
+    <SolidColorBrush x:Key="TreeViewExpander_MouseOver_StrokeBrush" Color="#007ACC" />
+
+    <SolidColorBrush x:Key="TreeViewExpander_Selected_MouseOver_StrokeBrush" Color="#007ACC" />
+    <SolidColorBrush x:Key="TreeViewExpander_Selected_MouseOver_FillBrush" Color="#007ACC" />
+
+    <SolidColorBrush x:Key="TreeViewItem_BackgroundBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TreeViewItem_ForegroundBrush" Color="#000000" />
+    
+    <SolidColorBrush x:Key="TreeViewItem_Selected_BackgroundBrush" Color="#3399FF" />
+    <SolidColorBrush x:Key="TreeViewItem_Selected_ForegroundBrush" Color="#FFFFFF" />
+
+    <SolidColorBrush x:Key="TreeViewItem_SelectedInactive_BackgroundBrush" Color="#CCCEDB" />
+    <SolidColorBrush x:Key="TreeViewItem_SelectedInactive_ForegroundBrush" Color="#1E1E1E" />
+</ResourceDictionary>
